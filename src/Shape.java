@@ -5,6 +5,7 @@ import ch.aplu.jgamegrid.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 
 class Shape extends Actor {
@@ -12,35 +13,79 @@ class Shape extends Actor {
     private final int blockId;
     private final String blockName;
     private Location[][] r = new Location[4][4];
+    private static final int NROT = 4;
+    public static enum ShapeIndex{
+        I(new Location[][]{
+                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0))},
+                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(1, 0)), new Location(new Location(0, 1))},
+                {new Location(new Location(2, 0)), new Location(new Location(0, 2)), new Location(new Location(2, 0)), new Location(new Location(0, 2))}
+        }),
+        J(new Location[][]{
+                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1)) },
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0))},
+                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
+                {new Location(new Location(1, 1)), new Location(new Location(-1, 1)), new Location(new Location(-1, -1)), new Location(new Location(1, -1)) }
 
-    Shape(Tetris tetris, String blockName, int blockId) {
+        }),
+        L(new Location[][]{
+                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0))},
+                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1))},
+                {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)),  new Location(new Location(1, -1)), new Location(new Location(1, 1))}
+        }),
+        O(new Location[][]{
+                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0))},
+                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1))},
+                {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)),  new Location(new Location(1, -1)), new Location(new Location(1, 1))}
+        }),
+        S(new Location[][]{
+                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)) },
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)),new Location(new Location(0, 0)), new Location(new Location(0, 0)) },
+                {new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)) },
+                {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)), new Location(new Location(1, -1)), new Location(new Location(1, 1)) }
+        }),
+        T(new Location[][]{
+                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1)) },
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)),new Location(new Location(0, 0)), new Location(new Location(0, 0)) },
+                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
+                {new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)) }
+        }),
+        Z(new Location[][]{
+                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1)) },
+                {new Location(new Location(0, 0)), new Location(new Location(0, 0)),new Location(new Location(0, 0)), new Location(new Location(0, 0)) },
+                {new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0))},
+                {new Location(new Location(1, 1)), new Location(new Location(-1, 1)), new Location(new Location(-1, -1)), new Location(new Location(1, -1)) }
+        });
+
+        private final Location[][] loc;
+
+        private ShapeIndex(Location[][] loc){
+            this.loc = loc;
+        }
+
+        public Location[][] getLocation(){
+            return loc;
+        }
+
+        public static ShapeIndex getRandomBlock(){
+            Random random = new Random();
+            return values()[random.nextInt(values().length)];
+        }
+
+    }
+
+
+    Shape(Tetris tetris, ShapeIndex blockName) {
         super();
-        this.blockName = blockName;
+        this.blockName = blockName.toString();
         this.tetris = tetris;
-        this.blockId = blockId;
         // rotId 0
-        r[0][0] = new Location(new Location(-1, 0));
-        r[1][0] = new Location(new Location(0, 0));
-        r[2][0] = new Location(new Location(1, 0));
-        r[3][0] = new Location(new Location(2, 0));
-        // rotId 1
-        r[0][1] = new Location(new Location(0, -1));
-        r[1][1] = new Location(new Location(0, 0));
-        r[2][1] = new Location(new Location(0, 1));
-        r[3][1] = new Location(new Location(0, 2));
-        // rotId 2
-        r[0][2] = new Location(new Location(-1, 0));
-        r[1][2] = new Location(new Location(0, 0));
-        r[2][2] = new Location(new Location(1, 0));
-        r[3][2] = new Location(new Location(2, 0));
-        // rotId 3
-        r[0][3] = new Location(new Location(0, -1));
-        r[1][3] = new Location(new Location(0, 0));
-        r[2][3] = new Location(new Location(0, 1));
-        r[3][3] = new Location(new Location(0, 2));
-
+        this.blockId = blockName.ordinal();
+        this.r = blockName.getLocation();
         for (int i = 0; i < r.length; i++)
-            blocks.add(new TetroBlock(blockId, r[i]));
+            blocks.add(new TetroBlock(this.blockId, r[i]));
     }
 
     public String toString() {
@@ -248,6 +293,20 @@ class Shape extends Actor {
         super.removeSelf();
         for (TetroBlock a : blocks)
             a.removeSelf();
+    }
+
+    public Location[][] find_all_rotation(Location[] oneRot){
+        Location[][] r = new Location[oneRot.length][NROT];
+        for(int i =0; i< oneRot.length; i++){
+            for(int j=0; j<NROT; j++){
+                if(j==0){
+                    r[i][j] = oneRot[i];
+                }else{
+                    r[i][j] = new Location(-r[i][j-1].y, r[i][j-1].x);
+                }
+            }
+        }
+        return r;
     }
 
 }

@@ -9,7 +9,9 @@ public class TetroBlock extends Actor
   public TetroBlock(int blockId, Location[] relLoc)
   {
     super("sprites/tetroblock" + blockId + ".gif");
+
     this.relLoc = relLoc.clone();
+    /*System.out.println(relLoc);*/
   }
 
   public Location getRelLoc(int rotId)
