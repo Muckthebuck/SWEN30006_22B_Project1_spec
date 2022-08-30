@@ -14,6 +14,7 @@ class Shape extends Actor {
     private final String blockName;
     private Location[][] r = new Location[4][4];
     private static final int NROT = 4;
+
     public static enum ShapeIndex{
         I(new Location[][]{
                 {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},

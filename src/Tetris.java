@@ -15,6 +15,7 @@ public class Tetris extends JFrame implements GGActListener {
     private Actor blockPreview = null;   // block in preview window
     private int score = 0;
     private int slowDown = 10;
+    private
     private Random random = new Random(0);
     private Statistics stats = new Statistics();
 
@@ -28,6 +29,9 @@ public class Tetris extends JFrame implements GGActListener {
     private String [] blockActions = new String[10];
     private int blockActionIndex = 0;
 
+    private enum Difficulty{
+        Easy, Medium, 
+    }
     // Initialise object
     private void initWithProperties(Properties properties) {
         this.seed = Integer.parseInt(properties.getProperty("seed", "30006"));
