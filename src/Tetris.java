@@ -16,6 +16,7 @@ public class Tetris extends JFrame implements GGActListener {
     private int score = 0;
     private int slowDown = 10;
     private Random random = new Random(0);
+    private Statistics stats = new Statistics();
 
     private TetrisGameCallback gameCallback;
 
@@ -176,6 +177,8 @@ public class Tetris extends JFrame implements GGActListener {
     void gameOver() {
         gameGrid1.addActor(new Actor("sprites/gameover.gif"), new Location(5, 5));
         gameGrid1.doPause();
+        this.stats.addRound(score);
+        this.stats.writeStats();
         if (isAuto) {
             System.exit(0);
         }
