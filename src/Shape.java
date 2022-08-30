@@ -15,6 +15,15 @@ class Shape extends Actor {
     private Location[][] r = new Location[4][4];
     private static final int NROT = 4;
 
+    protected Tetris tetris;
+    private boolean isStarting = true;
+    private int rotId = 0;
+    private int nb;
+    protected ArrayList<TetroBlock> blocks = new ArrayList<TetroBlock>();
+    private Actor nextTetrisBlock = null;
+    private String autoBlockMove = "";
+    private int autoBlockIndex = 0;
+
     public static enum ShapeIndex{
         I(new Location[][]{
                 {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
@@ -92,15 +101,6 @@ class Shape extends Actor {
     public String toString() {
         return "For testing, do not change: Block: " + blockName + ". Location: " + blocks + ". Rotation: " + rotId;
     }
-
-    protected Tetris tetris;
-    private boolean isStarting = true;
-    private int rotId = 0;
-    private int nb;
-    protected ArrayList<TetroBlock> blocks = new ArrayList<TetroBlock>();
-    private Actor nextTetrisBlock = null;
-    private String autoBlockMove = "";
-    private int autoBlockIndex = 0;
 
     public void setAutoBlockMove(String autoBlockMove) {
         this.autoBlockMove = autoBlockMove;

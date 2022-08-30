@@ -15,10 +15,10 @@ public class Tetris extends JFrame implements GGActListener {
     private Actor blockPreview = null;   // block in preview window
     private int score = 0;
     private int slowDown = 10;
-    private
+    /*private Difficulty level;*/
     private Random random = new Random(0);
     private Statistics stats = new Statistics();
-
+    private Difficulty lvl;
     private TetrisGameCallback gameCallback;
 
     private boolean isAuto = false;
@@ -30,7 +30,16 @@ public class Tetris extends JFrame implements GGActListener {
     private int blockActionIndex = 0;
 
     private enum Difficulty{
-        Easy, Medium, 
+        Easy("easy"), Medium("medium"), Madness("madness");
+        private final String lvl;
+
+        private Difficulty(String lvl){
+            this.lvl = lvl;
+        }
+
+        public String getlvl(){
+            return lvl;
+        }
     }
     // Initialise object
     private void initWithProperties(Properties properties) {
@@ -39,7 +48,9 @@ public class Tetris extends JFrame implements GGActListener {
         isAuto = Boolean.parseBoolean(properties.getProperty("isAuto"));
         String blockActionProperty = properties.getProperty("autoBlockActions", "");
         blockActions = blockActionProperty.split(",");
+        lvl = Difficulty.valueOf(properties.getProperty("difficulty", ""));
     }
+
 
     public Tetris(TetrisGameCallback gameCallback, Properties properties) {
         // Initialise value
@@ -77,9 +88,11 @@ public class Tetris extends JFrame implements GGActListener {
             currentBlockMove = blockActions[blockActionIndex];
         }
 
+
         blockActionIndex++;
         Shape.ShapeIndex randomBlock = Shape.ShapeIndex.getRandomBlock();
-        Actor t = new Shape(this, randomBlock);;
+        Actor t = new Shape(this, randomBlock);
+
 
         if (isAuto) {
             ((Shape) t).setAutoBlockMove(currentBlockMove);
