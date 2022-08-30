@@ -3,3 +3,6 @@ Average score per round: 0
 -----------------------------
 Round #1
 Score: 0
+-----------------------------
+Round #2
+Score: 0

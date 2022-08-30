@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Statistics {
 
     private ArrayList<Integer> roundScores = new ArrayList<>();
+    private String difficulty;
 
 
     public Statistics() {}
@@ -25,6 +26,11 @@ public class Statistics {
         }
         return totalScore / roundScores.size();
     }
+
+    public void getDifficultyLevel(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
 
     public void writeStats() {
         try(FileWriter fw = new FileWriter("src/Statistics.txt");

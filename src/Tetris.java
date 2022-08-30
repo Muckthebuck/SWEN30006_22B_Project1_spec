@@ -34,6 +34,8 @@ public class Tetris extends JFrame implements GGActListener {
         random = new Random(seed);
         isAuto = Boolean.parseBoolean(properties.getProperty("isAuto"));
         String blockActionProperty = properties.getProperty("autoBlockActions", "");
+        String difficultyProperty = properties.getProperty("difficulty", "easy");
+        this.stats.getDifficultyLevel(difficultyProperty);
         blockActions = blockActionProperty.split(",");
     }
 
@@ -75,8 +77,8 @@ public class Tetris extends JFrame implements GGActListener {
 
         blockActionIndex++;
         Shape.ShapeIndex randomBlock = Shape.ShapeIndex.getRandomBlock();
-        Actor t = new Shape(this, randomBlock);;
-
+        Actor t = new Shape(this, randomBlock);
+        System.out.println(randomBlock.ordinal());
         if (isAuto) {
             ((Shape) t).setAutoBlockMove(currentBlockMove);
         }
