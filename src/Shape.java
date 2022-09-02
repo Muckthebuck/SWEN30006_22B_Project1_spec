@@ -45,10 +45,10 @@ class Shape extends Actor {
                 {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)),  new Location(new Location(1, -1)), new Location(new Location(1, 1))}
         }),
         O(new Location[][]{
-                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
                 {new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0))},
-                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1))},
-                {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)),  new Location(new Location(1, -1)), new Location(new Location(1, 1))}
+                {new Location(new Location(1, 0)), new Location(new Location(1, 0)), new Location(new Location(1, 0)), new Location(new Location(1, 0))},
+                {new Location(new Location(1, 1)), new Location(new Location(1, 1)), new Location(new Location(1, 1)), new Location(new Location(1, 1))},
+                {new Location(new Location(0, 1)), new Location(new Location(0, 1)), new Location(new Location(0, 1)), new Location(new Location(0, 1))},
         }),
         S(new Location[][]{
                 {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)) },

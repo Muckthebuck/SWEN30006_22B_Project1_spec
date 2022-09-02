@@ -30,7 +30,7 @@ public class Tetris extends JFrame implements GGActListener {
     private int blockActionIndex = 0;
 
     private enum Difficulty{
-        Easy("easy"), Medium("medium"), Madness("madness");
+        easy("easy"), medium("medium"), madness("madness");
         private final String lvl;
 
         private Difficulty(String lvl){
@@ -49,6 +49,9 @@ public class Tetris extends JFrame implements GGActListener {
         String blockActionProperty = properties.getProperty("autoBlockActions", "");
         blockActions = blockActionProperty.split(",");
         lvl = Difficulty.valueOf(properties.getProperty("difficulty", ""));
+        //how do i do this better
+        String difficulty = properties.getProperty("difficulty", "easy");
+        stats.getDifficulty(difficulty);
     }
 
 
@@ -57,6 +60,8 @@ public class Tetris extends JFrame implements GGActListener {
         initWithProperties(properties);
         this.gameCallback = gameCallback;
         blockActionIndex = 0;
+        // IS THIS NECESSARY??
+        stats.resetPieceCount();
 
         // Set up the UI components. No need to modify the UI Components
         tetrisComponents = new TetrisComponents();
@@ -92,6 +97,8 @@ public class Tetris extends JFrame implements GGActListener {
         blockActionIndex++;
         Shape.ShapeIndex randomBlock = Shape.ShapeIndex.getRandomBlock();
         Actor t = new Shape(this, randomBlock);
+        // NECESSARY NOTE: this is adding the preview piece even if it doesn't fall
+        stats.updatePieceCount(randomBlock.ordinal());
 
 
         if (isAuto) {
@@ -196,6 +203,7 @@ public class Tetris extends JFrame implements GGActListener {
         gameGrid1.doPause();
         this.stats.addRound(score);
         this.stats.writeStats();
+        this.stats.resetPieceCount();
         if (isAuto) {
             System.exit(0);
         }
