@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Statistics {
 
@@ -21,7 +22,7 @@ public class Statistics {
 
     public void addRound(int roundScore) {
         roundScores.add(roundScore);
-        pieceCountByRound.add(pieceCount);
+        pieceCountByRound.add(Arrays.copyOf(pieceCount, numOfPieces));
         roundCount++;
 
 
@@ -35,7 +36,7 @@ public class Statistics {
 
     public void updatePieceCount(int pieceIndex) {
         pieceCount[pieceIndex] = pieceCount[pieceIndex] + 1;
-        System.out.println(Shape.ShapeIndex.values()[pieceIndex] + " count is " + (pieceCount[pieceIndex]));
+//        System.out.println(Shape.ShapeIndex.values()[pieceIndex] + " count is " + (pieceCount[pieceIndex]));
     }
 
     private int calculateAverageScore() {
@@ -55,7 +56,7 @@ public class Statistics {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            System.out.println("Game stats printed");
+//            System.out.println("Game stats printed");
             out.println("Difficulty: " + this.difficulty);
             out.println("Average score per round: " + calculateAverageScore());
             for (int i = 0; i < roundScores.size(); i++) {
