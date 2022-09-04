@@ -2,19 +2,24 @@
 package src;
 
 import ch.aplu.jgamegrid.*;
+import src.utility.PropertiesLoader;
 
+import java.awt.*;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 class Shape extends Actor {
 
     private final int blockId;
     private final String blockName;
-    private Location[][] r = new Location[4][4];
+    private Location[][] r;
     private static final int NROT = 4;
-
+    private static final int N_EASY = 6;
     protected Tetris tetris;
     private boolean isStarting = true;
     private int rotId = 0;
@@ -45,10 +50,10 @@ class Shape extends Actor {
                 {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)),  new Location(new Location(1, -1)), new Location(new Location(1, 1))}
         }),
         O(new Location[][]{
-                {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1))},
                 {new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0)), new Location(new Location(0, 0))},
-                {new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0)), new Location(new Location(0, 1))},
-                {new Location(new Location(-1, 1)), new Location(new Location(-1, -1)),  new Location(new Location(1, -1)), new Location(new Location(1, 1))}
+                {new Location(new Location(1, 0)), new Location(new Location(1, 0)), new Location(new Location(1, 0)), new Location(new Location(1, 0))},
+                {new Location(new Location(1, 1)), new Location(new Location(1, 1)), new Location(new Location(1, 1)), new Location(new Location(1, 1))},
+                {new Location(new Location(0, 1)), new Location(new Location(0, 1)),  new Location(new Location(0, -1)), new Location(new Location(0, -1))}
         }),
         S(new Location[][]{
                 {new Location(new Location(1, 0)), new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)) },
@@ -67,6 +72,27 @@ class Shape extends Actor {
                 {new Location(new Location(0, 0)), new Location(new Location(0, 0)),new Location(new Location(0, 0)), new Location(new Location(0, 0)) },
                 {new Location(new Location(0, 1)), new Location(new Location(-1, 0)), new Location(new Location(0, -1)), new Location(new Location(1, 0))},
                 {new Location(new Location(1, 1)), new Location(new Location(-1, 1)), new Location(new Location(-1, -1)), new Location(new Location(1, -1)) }
+        }),
+        Plus(new Location[][]{
+                {new Location(new Location(-1,0)), new Location(new Location(0,-1)), new Location(new Location(1,0)), new Location(new Location(0,1))},
+                {new Location(new Location(0,1)), new Location(new Location(-1,0)), new Location(new Location(0,-1)), new Location(new Location(1,0))},
+                {new Location(new Location(0,0)), new Location(new Location(0,0)), new Location(new Location(0,0)), new Location(new Location(0,0))},
+                {new Location(new Location(1,0)), new Location(new Location(0,1)), new Location(new Location(-1,0)), new Location(new Location(0,-1))},
+                {new Location(new Location(0,-1)), new Location(new Location(1,0)), new Location(new Location(0,1)), new Location(new Location(-1,0))},
+        }),
+        P(new Location[][]{
+                {new Location(new Location(-1,-1)), new Location(new Location(1,-1)), new Location(new Location(1,1)), new Location(new Location(-1,1))},
+                {new Location(new Location(0,-1)), new Location(new Location(1,0)), new Location(new Location(0,1)), new Location(new Location(-1,0))},
+                {new Location(new Location(-1,0)), new Location(new Location(0,-1)), new Location(new Location(1,0)), new Location(new Location(0,1))},
+                {new Location(new Location(0,0)), new Location(new Location(0,0)), new Location(new Location(0,0)), new Location(new Location(0,0))},
+                {new Location(new Location(-1,1)), new Location(new Location(-1,-1)), new Location(new Location(1,-1)), new Location(new Location(1,1))},
+        }),
+        Q(new Location[][]{
+                {new Location(new Location(-1,-1)), new Location(new Location(1,-1)), new Location(new Location(1,1)), new Location(new Location(-1,1))},
+                {new Location(new Location(0,-1)), new Location(new Location(1,0)), new Location(new Location(0,1)), new Location(new Location(-1,0))},
+                {new Location(new Location(-1,0)), new Location(new Location(0,-1)), new Location(new Location(1,0)), new Location(new Location(0,1))},
+                {new Location(new Location(0,0)), new Location(new Location(0,0)), new Location(new Location(0,0)), new Location(new Location(0,0))},
+                {new Location(new Location(0,1)), new Location(new Location(-1,0)), new Location(new Location(0,-1)), new Location(new Location(1,0))},
         });
 
         private final Location[][] loc;
@@ -93,9 +119,18 @@ class Shape extends Actor {
         this.tetris = tetris;
         // rotId 0
         this.blockId = blockName.ordinal();
+        int spriteId = (this.blockId>Shape.getnEasy())? ThreadLocalRandom.current().nextInt(0, Shape.N_EASY +1) : this.blockId;
+        System.out.println(spriteId);
         this.r = blockName.getLocation();
-        for (int i = 0; i < r.length; i++)
-            blocks.add(new TetroBlock(this.blockId, r[i]));
+        System.out.println(blockName.toString());
+        for (Location[] locations : r) {
+            blocks.add(new TetroBlock(spriteId, locations));
+            for(Location l: locations){
+                System.out.print(l.toString());
+            }
+            System.out.println();
+        }
+
     }
 
     public String toString() {
@@ -296,7 +331,7 @@ class Shape extends Actor {
             a.removeSelf();
     }
 
-    public Location[][] find_all_rotation(Location[] oneRot){
+    public static Location[][] find_all_rotation(Location[] oneRot){
         Location[][] r = new Location[oneRot.length][NROT];
         for(int i =0; i< oneRot.length; i++){
             for(int j=0; j<NROT; j++){
@@ -307,7 +342,28 @@ class Shape extends Actor {
                 }
             }
         }
+        System.out.println("{");
+        for(Location[] row: r){
+            System.out.print("{");
+            for(Location column: row){
+                System.out.printf("new Location(new Location(%d,%d)), ", column.x, column.y);
+            }
+            System.out.println("},");
+        }
+        System.out.println("}");
         return r;
     }
+
+    public static int getnEasy() {
+        return N_EASY;
+    }
+
+    public static void main(String args[]) {
+        Location[] plus = {new Location(-1,0), new Location(0,1), new Location(0, 0), new Location(1, 0), new Location(0,-1)};
+        Location[] p = {new Location(-1,-1), new Location(0,-1), new Location(-1,0), new Location(0,0), new Location(-1,1)};
+        Location[] q = {new Location(-1,-1), new Location(0,-1), new Location(-1,0), new Location(0,0), new Location(0,1)};
+        Location[][] a = find_all_rotation( q);
+    }
+
 
 }

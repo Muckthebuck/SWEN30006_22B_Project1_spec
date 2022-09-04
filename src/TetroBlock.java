@@ -1,15 +1,16 @@
 // TetroBlock.java
 package src;
 import ch.aplu.jgamegrid.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TetroBlock extends Actor
 {
-  private Location[] relLoc = new Location[4];
+  private Location[] relLoc;
   // Display a single square in a Tetris piece
-  public TetroBlock(int blockId, Location[] relLoc)
+  public TetroBlock(int spriteId, Location[] relLoc)
   {
-    super("sprites/tetroblock" + blockId + ".gif");
-
+    super("sprites/tetroblock" + spriteId + ".gif");
+    this.relLoc = new Location[relLoc.length];
     this.relLoc = relLoc.clone();
     /*System.out.println(relLoc);*/
   }

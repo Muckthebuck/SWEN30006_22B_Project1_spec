@@ -1,0 +1,104 @@
+@startuml
+class src.Shape {
+- int blockId
+- String blockName
+- Location[][] r
+- {static} int NROT
+# Tetris tetris
+- boolean isStarting
+- int rotId
+- int nb
+# ArrayList<TetroBlock> blocks
+- Actor nextTetrisBlock
+- String autoBlockMove
+- int autoBlockIndex
++ String toString()
++ void setAutoBlockMove(String)
++ void act()
+- void autoMove()
+- boolean canAutoPlay()
+~ void display(GameGrid,Location)
+~ void left()
+~ void right()
+~ void rotate()
+- boolean canRotate(int)
+~ void drop()
+- boolean advance()
++ void setDirection(double)
++ void move()
++ void removeSelf()
++ Location[][] find_all_rotation(Location[])
+}
+enum src.ShapeIndex {
++  I
++  J
++  L
++  O
++  S
++  T
++  Z
+- Location[][] loc
++ Location[][] getLocation()
++ {static} ShapeIndex getRandomBlock()
+}
+class src.TetrisComponents {
++ void initComponents(Tetris)
+}
+class src.utility.PropertiesLoader {
++ {static} Properties loadPropertiesFile(String)
+}
+class src.Tetris {
+- Actor currentBlock
+- Actor blockPreview
+- int score
+- int slowDown
+- Random random
+- TetrisGameCallback gameCallback
+- boolean isAuto
+- int seed
+- String[] blockActions
+- int blockActionIndex
++ ch.aplu.jgamegrid.GameGrid gameGrid1
++ ch.aplu.jgamegrid.GameGrid gameGrid2
++ javax.swing.JPanel jPanel1
++ javax.swing.JPanel jPanel2
++ javax.swing.JPanel jPanel3
++ javax.swing.JPanel jPanel4
++ javax.swing.JScrollPane jScrollPane1
++ javax.swing.JTextArea jTextArea1
++ javax.swing.JTextField scoreText
++ javax.swing.JButton startBtn
+- TetrisComponents tetrisComponents
+- void initWithProperties(Properties)
+~ Actor createRandomTetrisBlock()
+~ void setCurrentTetrisBlock(Actor)
+- void moveBlock(int)
++ void act()
+- void removeFilledLine()
+- void showScore(int)
+~ void gameOver()
++ void startBtnActionPerformed(java.awt.event.ActionEvent)
+- int getSimulationTime()
+- int getDelayTime()
+}
+class src.TetroBlock {
+- Location[] relLoc
++ Location getRelLoc(int)
++ String toString()
+}
+class src.Driver {
++ {static} String DEFAULT_PROPERTIES_PATH
++ {static} void main(String[])
+}
+class src.TetrisGameCallback {
+- boolean isLoggingTest
++ void changeOfBlock(Actor)
++ void changeOfScore(int)
+}
+
+
+src.Actor <|-- src.Shape
+src.GGActListener <|.. src.Tetris
+src.JFrame <|-- src.Tetris
+src.Actor <|-- src.TetroBlock
+@enduml
