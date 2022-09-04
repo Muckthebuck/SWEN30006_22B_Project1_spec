@@ -1,22 +1,22 @@
 Difficulty: easy
-Average score per round: 0
+Average score per round: 1
 -----------------------------
 Round #1
 Score: 0
 I: 2
 J: 2
-L: 1
+L: 2
 O: 1
-S: 1
-T: 2
-Z: 3
+S: 2
+T: 0
+Z: 2
 -----------------------------
 Round #2
-Score: 0
-I: 1
-J: 0
-L: 2
+Score: 2
+I: 6
+J: 4
+L: 3
 O: 0
-S: 5
+S: 0
 T: 4
-Z: 0
+Z: 6

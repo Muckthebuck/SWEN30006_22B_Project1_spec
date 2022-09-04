@@ -120,15 +120,9 @@ class Shape extends Actor {
         // rotId 0
         this.blockId = blockName.ordinal();
         int spriteId = (this.blockId>Shape.getnEasy())? ThreadLocalRandom.current().nextInt(0, Shape.N_EASY +1) : this.blockId;
-        System.out.println(spriteId);
         this.r = blockName.getLocation();
-        System.out.println(blockName.toString());
         for (Location[] locations : r) {
             blocks.add(new TetroBlock(spriteId, locations));
-            for(Location l: locations){
-                System.out.print(l.toString());
-            }
-            System.out.println();
         }
 
     }
