@@ -13,6 +13,7 @@ public class Statistics {
     private String difficulty;
     private int roundCount = 0;
     // how do i do this better
+    private int currScore = 0;
     private int numOfPieces = Shape.ShapeIndex.values().length;
     private int[] pieceCount = new int[numOfPieces];
     private ArrayList<int[]> pieceCountByRound = new ArrayList<>();
@@ -20,20 +21,37 @@ public class Statistics {
 
     public Statistics() {}
 
-    public void addRound(int roundScore) {
-        roundScores.add(roundScore);
-        pieceCountByRound.add(Arrays.copyOf(pieceCount, numOfPieces));
+    public void addRound() {
+        updateStatCount();
         roundCount++;
+        resetStatCount();
     }
 
-    public void resetPieceCount() {
+    public void resetStatCount() {
         for (int i = 0; i < numOfPieces; i++) {
             pieceCount[i] = 0;
         }
+        currScore = 0;
+
+        roundScores.add(currScore);
+        pieceCountByRound.add(Arrays.copyOf(pieceCount, numOfPieces));
+        updateStatCount();
+    }
+
+    private void updateStatCount() {
+        roundScores.set(roundCount, currScore);
+        pieceCountByRound.set(roundCount, Arrays.copyOf(pieceCount, numOfPieces));
+        writeStats();
+    }
+
+    public void updateRoundScore(int roundScore) {
+        this.currScore = roundScore;
+        updateStatCount();
     }
 
     public void updatePieceCount(int pieceIndex) {
         pieceCount[pieceIndex] = pieceCount[pieceIndex] + 1;
+        updateStatCount();
 //        System.out.println(Shape.ShapeIndex.values()[pieceIndex] + " count is " + (pieceCount[pieceIndex]));
     }
 

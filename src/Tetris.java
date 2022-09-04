@@ -48,7 +48,7 @@ public class Tetris extends JFrame implements GGActListener {
         this.gameCallback = gameCallback;
         blockActionIndex = 0;
         // IS THIS NECESSARY??
-        stats.resetPieceCount();
+        stats.resetStatCount();
 
         // Set up the UI components. No need to modify the UI Components
         tetrisComponents = new TetrisComponents();
@@ -156,6 +156,7 @@ public class Tetris extends JFrame implements GGActListener {
                 }
                 gameGrid1.refresh();
                 score++;
+                this.stats.updateRoundScore(score);
                 gameCallback.changeOfScore(score);
                 showScore(score);
                 // Set speed of tetrisBlocks
@@ -188,9 +189,7 @@ public class Tetris extends JFrame implements GGActListener {
     void gameOver() {
         gameGrid1.addActor(new Actor("sprites/gameover.gif"), new Location(5, 5));
         gameGrid1.doPause();
-        this.stats.addRound(score);
-        this.stats.writeStats();
-        this.stats.resetPieceCount();
+        this.stats.addRound();
         if (isAuto) {
             System.exit(0);
         }
