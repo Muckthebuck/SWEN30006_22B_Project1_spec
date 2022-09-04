@@ -14,11 +14,11 @@ public class Tetris extends JFrame implements GGActListener {
     private Actor currentBlock = null;  // Currently active block
     private Actor blockPreview = null;   // block in preview window
     private int score = 0;
-    private int slowDown = 10;
+    private int slowDown = 5;
     /*private Difficulty level;*/
     private Random random = new Random(0);
     private Statistics stats = new Statistics();
-    private Difficulty lvl;
+    private DifficultyModifier difficultyMod;
     private TetrisGameCallback gameCallback;
 
     private boolean isAuto = false;
@@ -29,18 +29,6 @@ public class Tetris extends JFrame implements GGActListener {
     private String [] blockActions = new String[10];
     private int blockActionIndex = 0;
 
-    private enum Difficulty{
-        easy("easy"), medium("medium"), madness("madness");
-        private final String lvl;
-
-        private Difficulty(String lvl){
-            this.lvl = lvl;
-        }
-
-        public String getlvl(){
-            return lvl;
-        }
-    }
     // Initialise object
     private void initWithProperties(Properties properties) {
         this.seed = Integer.parseInt(properties.getProperty("seed", "30006"));
@@ -48,10 +36,9 @@ public class Tetris extends JFrame implements GGActListener {
         isAuto = Boolean.parseBoolean(properties.getProperty("isAuto"));
         String blockActionProperty = properties.getProperty("autoBlockActions", "");
         String difficultyProperty = properties.getProperty("difficulty", "easy");
-        this.stats.getDifficultyLevel(difficultyProperty);
         blockActions = blockActionProperty.split(",");
-        lvl = Difficulty.valueOf(properties.getProperty("difficulty", ""));        
-        stats.getDifficulty(properties.getProperty("difficulty", "easy"));
+        difficultyMod = new DifficultyModifier(properties.getProperty("difficulty", "easy"));
+        stats.getDifficulty(difficultyMod.getDifficulty());
     }
 
 
@@ -95,7 +82,7 @@ public class Tetris extends JFrame implements GGActListener {
 
 
         blockActionIndex++;
-        Shape.ShapeIndex randomBlock = Shape.ShapeIndex.getRandomBlock();
+        Shape.ShapeIndex randomBlock = Shape.ShapeIndex.getRandomBlock(difficultyMod.getDifficulty());
         Actor t = new Shape(this, randomBlock);
         // NECESSARY NOTE: this is adding the preview piece even if it doesn't fall
         stats.updatePieceCount(randomBlock.ordinal());
@@ -109,7 +96,7 @@ public class Tetris extends JFrame implements GGActListener {
 
         // Show preview tetrisBlock
 
-        t.setSlowDown(slowDown);
+        t.setSlowDown(difficultyMod.setModifiedSpeed(slowDown));
         return t;
     }
 
@@ -123,7 +110,8 @@ public class Tetris extends JFrame implements GGActListener {
     private void moveBlock(int keyEvent) {
         switch (keyEvent) {
             case KeyEvent.VK_UP:
-                ((Shape) currentBlock).rotate();
+                difficultyMod.modifiedRotate((Shape) currentBlock);
+//                ((Shape) currentBlock).rotate();
                 break;
             case KeyEvent.VK_LEFT:
                 ((Shape) currentBlock).left();

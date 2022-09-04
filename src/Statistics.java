@@ -24,8 +24,6 @@ public class Statistics {
         roundScores.add(roundScore);
         pieceCountByRound.add(Arrays.copyOf(pieceCount, numOfPieces));
         roundCount++;
-
-
     }
 
     public void resetPieceCount() {

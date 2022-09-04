@@ -96,6 +96,7 @@ class Shape extends Actor {
         });
 
         private final Location[][] loc;
+        private static final int numEasyShapes = 7;
 
         private ShapeIndex(Location[][] loc){
             this.loc = loc;
@@ -105,8 +106,11 @@ class Shape extends Actor {
             return loc;
         }
 
-        public static ShapeIndex getRandomBlock(){
+        public static ShapeIndex getRandomBlock(String difficulty){
             Random random = new Random();
+            if (difficulty == "easy") {
+                return values()[random.nextInt(numEasyShapes)];
+            }
             return values()[random.nextInt(values().length)];
         }
 
