@@ -9,14 +9,13 @@ import java.util.Arrays;
 
 public class Statistics {
 
-    private ArrayList<Integer> roundScores = new ArrayList<>();
+    private final ArrayList<Integer> roundScores = new ArrayList<>();
     private String difficulty;
     private int roundCount = 0;
-    // how do i do this better
     private int currScore = 0;
-    private int numOfPieces = Shape.ShapeIndex.values().length;
-    private int[] pieceCount = new int[numOfPieces];
-    private ArrayList<int[]> pieceCountByRound = new ArrayList<>();
+    private final int numOfPieces = Shape.ShapeIndex.values().length;
+    private final int[] pieceCount = new int[numOfPieces];
+    private final ArrayList<int[]> pieceCountByRound = new ArrayList<>();
 
 
     public Statistics() {}
@@ -67,8 +66,8 @@ public class Statistics {
         this.difficulty = difficulty;
     }
 
-    public void writeStats() {
-        try(FileWriter fw = new FileWriter("src/Statistics.txt");
+    private void writeStats() {
+        try(FileWriter fw = new FileWriter("Statistics.txt");
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
@@ -79,16 +78,12 @@ public class Statistics {
                 out.println("-----------------------------");
                 out.println("Round #" + (i + 1));
                 out.println("Score: " +  roundScores.get(i));
-//                for (int j = 0 ; j < numOfPieces; j++) {
-//                    out.println(Shape.ShapeIndex.values()[j] + ": " + pieceCount[j]);
-//                }
                 int[] pieceCountHelper = pieceCountByRound.get(i);
                 for (int k = 0; k < numOfPieces; k++) {
                     out.println(Shape.ShapeIndex.values()[k] + ": " + pieceCountHelper[k]);
                 }
             }
         } catch (IOException e) {
-            //exception handling left as an exercise for the reader
         }
     }
 }

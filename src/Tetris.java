@@ -15,7 +15,6 @@ public class Tetris extends JFrame implements GGActListener {
     private Actor blockPreview = null;   // block in preview window
     private int score = 0;
     private int slowDown = 5;
-    /*private Difficulty level;*/
     private Random random = new Random(0);
     private Statistics stats = new Statistics();
     private DifficultyModifier difficultyMod;
@@ -46,7 +45,6 @@ public class Tetris extends JFrame implements GGActListener {
         initWithProperties(properties);
         this.gameCallback = gameCallback;
         blockActionIndex = 0;
-        // IS THIS NECESSARY??
         stats.resetStatCount();
 
         // Set up the UI components. No need to modify the UI Components
@@ -110,7 +108,6 @@ public class Tetris extends JFrame implements GGActListener {
         switch (keyEvent) {
             case KeyEvent.VK_UP:
                 difficultyMod.modifiedRotate((Shape) currentBlock);
-//                ((Shape) currentBlock).rotate();
                 break;
             case KeyEvent.VK_LEFT:
                 ((Shape) currentBlock).left();

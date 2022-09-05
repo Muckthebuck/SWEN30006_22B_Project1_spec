@@ -19,7 +19,6 @@ class Shape extends Actor {
     private final String blockName;
     private Location[][] r;
     private static final int NROT = 4;
-    private static final int N_EASY = 6;
     protected Tetris tetris;
     private boolean isStarting = true;
     private int rotId = 0;
@@ -96,7 +95,7 @@ class Shape extends Actor {
         });
 
         private final Location[][] loc;
-        private static final int numEasyShapes = 7;
+        private static final int N_EASY_SHAPES = 7;
 
         private ShapeIndex(Location[][] loc){
             this.loc = loc;
@@ -109,7 +108,7 @@ class Shape extends Actor {
         public static ShapeIndex getRandomBlock(String difficulty){
             Random random = new Random();
             if (difficulty == "easy") {
-                return values()[random.nextInt(numEasyShapes)];
+                return values()[random.nextInt(N_EASY_SHAPES)];
             }
             return values()[random.nextInt(values().length)];
         }
@@ -123,7 +122,7 @@ class Shape extends Actor {
         this.tetris = tetris;
         // rotId 0
         this.blockId = blockName.ordinal();
-        int spriteId = (this.blockId>Shape.getnEasy())? ThreadLocalRandom.current().nextInt(0, Shape.N_EASY +1) : this.blockId;
+        int spriteId = (this.blockId>ShapeIndex.N_EASY_SHAPES - 1)? ThreadLocalRandom.current().nextInt(0, ShapeIndex.N_EASY_SHAPES) : this.blockId;
         this.r = blockName.getLocation();
         for (Location[] locations : r) {
             blocks.add(new TetroBlock(spriteId, locations));
@@ -350,10 +349,6 @@ class Shape extends Actor {
         }
         System.out.println("}");
         return r;
-    }
-
-    public static int getnEasy() {
-        return N_EASY;
     }
 
     public static void main(String args[]) {

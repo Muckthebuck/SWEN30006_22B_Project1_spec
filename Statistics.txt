@@ -1,15 +1,15 @@
-Difficulty: medium
+Difficulty: madness
 Average score per round: 0
 -----------------------------
 Round #1
 Score: 0
 I: 0
 J: 1
-L: 1
-O: 1
-S: 0
-T: 2
+L: 0`
+O: 0
+S: 1
+T: 0
 Z: 0
 Plus: 0
 P: 0
-Q: 0
+Q: 1
