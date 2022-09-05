@@ -57,8 +57,8 @@ public class Statistics {
 
     private int calculateAverageScore() {
         int totalScore = 0;
-        for (int i = 0; i < roundScores.size(); i++) {
-            totalScore = totalScore + roundScores.get(i);
+        for (Integer roundScore : roundScores) {
+            totalScore = totalScore + roundScore;
         }
         return totalScore / roundScores.size();
     }

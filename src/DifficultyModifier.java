@@ -24,29 +24,29 @@ public class DifficultyModifier {
     public String getDifficulty() {return this.difficulty.getlvl();}
 
     public int setModifiedSpeed(int easySlowDown) {
-        String difficulty = this.getDifficulty();
+
         int modifiedSlowDown = easySlowDown;
 
         if (easySlowDown == 0) {
             return 0;
         }
-
-        if (difficulty == "medium") {
-            modifiedSlowDown = easySlowDown - 1;
-        } else if (difficulty == "madness") {
-            if (easySlowDown > 1) {
-                modifiedSlowDown = ThreadLocalRandom.current().nextInt(easySlowDown - 2, easySlowDown + 1);
-            } else if (easySlowDown == 1) {
-                modifiedSlowDown = ThreadLocalRandom.current().nextInt(0, easySlowDown + 1);
-            }
+        switch(difficulty){
+            case easy:
+                break;
+            case medium:
+                modifiedSlowDown = easySlowDown - 1;
+                break;
+            case madness:
+                int origin = (easySlowDown>1)?easySlowDown - 2: 0;
+                modifiedSlowDown = ThreadLocalRandom.current().nextInt(origin, easySlowDown + 1);
+                break;
         }
-
 //        System.out.println("Speed is " + modifiedSlowDown);
         return modifiedSlowDown;
     }
 
     public void modifiedRotate(Shape currentBlock) {
-        if (this.getDifficulty() != "madness") {
+        if (this.difficulty != Difficulty.madness) {
             ((Shape) currentBlock).rotate();
         }
     }
