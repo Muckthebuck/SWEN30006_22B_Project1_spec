@@ -36,7 +36,7 @@ class src.Shape {
 + void removeSelf()
 + Location[][] find_all_rotation(Location[])
 }
-enum src.ShapeIndex {
+enum src.ShapeIndex <<Enum>> {
 +  I
 +  J
 +  L

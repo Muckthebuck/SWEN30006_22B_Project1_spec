@@ -76,12 +76,16 @@ public class Statistics {
             out.println("Difficulty: " + this.difficulty);
             out.println("Average score per round: " + calculateAverageScore());
             for (int i = 0; i < roundScores.size(); i++) {
-                out.println("-----------------------------");
+                out.println("------------------------------------------");
                 out.println("Round #" + (i + 1));
                 out.println("Score: " +  roundScores.get(i));
                 int[] pieceCountHelper = pieceCountByRound.get(i);
                 for (int k = 0; k < numOfPieces; k++) {
-                    out.println(Shape.ShapeIndex.values()[k] + ": " + pieceCountHelper[k]);
+                    if (k == Shape.ShapeIndex.Plus.ordinal()) {
+                        out.println("+" + ": " + pieceCountHelper[k]);
+                    } else {
+                        out.println(Shape.ShapeIndex.values()[k] + ": " + pieceCountHelper[k]);
+                    }
                 }
             }
         } catch (IOException e) {
