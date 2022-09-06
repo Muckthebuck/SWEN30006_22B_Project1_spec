@@ -94,6 +94,7 @@ public class Tetris extends JFrame implements GGActListener {
         // Show preview tetrisBlock
 
         t.setSlowDown(difficultyMod.setModifiedSpeed(slowDown));
+
         return t;
     }
 

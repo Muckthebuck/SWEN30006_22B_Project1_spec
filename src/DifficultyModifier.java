@@ -37,7 +37,7 @@ public class DifficultyModifier {
                 modifiedSlowDown = easySlowDown - 1;
                 break;
             case madness:
-                int origin = (easySlowDown>1)?easySlowDown - 2: 0;
+                int origin = (easySlowDown>1)? (int) Math.ceil(easySlowDown / 2.0) : 0;
                 modifiedSlowDown = ThreadLocalRandom.current().nextInt(origin, easySlowDown + 1);
                 break;
         }
