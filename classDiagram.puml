@@ -1,0 +1,166 @@
+@startuml
+
+
+left to right direction
+skinparam linetype ortho
+skinparam HorizontalAlignment center
+skinparam classAttributeIconSize 0
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam style strictuml
+
+class src.Shape {
+- blockId: int
+- blockName: String
+- r: Location[][]
+- {static} NROT: int
+# tetris: Tetris
+- isStarting: boolean
+- rotId: int
+- nb: int
+# blocks: ArrayList<TetroBlock>
+- nextTetrisBlock: Actor
+- autoBlockMove: String
+- autoBlockIndex: int
++ toString(): String
++ setAutoBlockMove(String): void
++ act(): void
+- autoMove(): void
+- canAutoPlay(): boolean
+~ display(GameGrid,Location): void
+~ left(): void
+~ right(): void
+~ rotate(): void
+- canRotate(int) boolean
+~ drop(): void
+- advance(): boolean
++ setDirection(double): void
++ move(): void
++ removeSelf(): void
++ {static} find_all_rotation(Location[]): Location[][]
+}
+enum src.ShapeIndex {
++  I
++  J
++  L
++  O
++  S
++  T
++  Z
++  Plus
++  P
++  Q
+- loc: Location[][]
+- {static} N_EASY_SHAPES: int
++ getLocation(): Location[][]
++ {static} getRandomBlock(String): ShapeIndex
+}
+class src.TetrisComponents {
++ initComponents(Tetris): void
+}
+
+class src.DifficultyModifier {
+- difficulty: Difficulty
++ getDifficulty(): String
++ setModifiedSpeed(int): int
++ modifiedRotate(Shape): void
+}
+enum src.Difficulty <<Enum>> {
++  easy
++  medium
++  madness
+- lvl: String
++ getlvl(): String
+}
+class src.Tetris {
+- currentBlock: Actor
+- blockPreview: Actor
+- score: int
+- slowDown: int
+- random: Random
+- stats: Statistics
+- difficultyMod: DifficultyModifier
+- gameCallback: TetrisGameCallback
+- isAuto: boolean
+- seed: int
+- blockActions: String[]
+- blockActionIndex: int
++ gameGrid1: ch.aplu.jgamegrid.GameGrid
++ gameGrid2: ch.aplu.jgamegrid.GameGrid
++ jPanel1: javax.swing.JPanel
++ jPanel2: javax.swing.JPanel
++ jPanel3: javax.swing.JPanel
++ jPanel4: javax.swing.JPanel
++ jScrollPane1: javax.swing.JScrollPane
++ jTextArea1: javax.swing.JTextArea
++ scoreText: javax.swing.JTextField
++ startBtn: javax.swing.JButton
+- tetrisComponents: TetrisComponents
+- initWithProperties(Properties): void
+~ createRandomTetrisBlock(): Actor
+~ setCurrentTetrisBlock(Actor): void
+- moveBlock(int): void
++ act(): void
+- removeFilledLine(): void
+- showScore(int): void
+~ gameOver(): void
++ startBtnActionPerformed(java.awt.event.ActionEvent): void
+- getSimulationTime(): int
+- getDelayTime(): int
+}
+class src.Statistics {
+- roundScores: ArrayList<Integer>
+- difficulty: String
+- roundCount: int
+- currScore: int
+- numOfPieces: int
+- pieceCount: int[]
+- pieceCountByRound: ArrayList<int[]>
++ addRound(): void
++ resetStatCount(): void
++ updateRoundScore(int): void
++ updatePieceCount(int): void
++ getDifficulty(String): void
+- calculateAverageScore(): int
+- updateStatCount(): void
+- writeStats(): void
+}
+class src.TetroBlock {
+- Location[]
++ getRelLoc(int): Location
++ toString(): String
+}
+class src.Driver {
++ {static} DEFAULT_PROPERTIES_PATH: String
++ {static} main(String[]): void
+}
+class src.TetrisGameCallback {
+- isLoggingTest: boolean
++ changeOfBlock(Actor): void
++ changeOfScore(int): void
+}
+class ch.aplu.jgamegrid.Actor{
+- location: Location
+...
++ move(): void
++ act(): void
++ removeSelf(): void
++ setDirection(direction: Double): void
+...
+}
+
+
+ch.aplu.jgamegrid.Actor <|-- src.Shape
+ch.aplu.jgamegrid.Actor "   1"<-- "1"src.Tetris: .-currentBlock
+ch.aplu.jgamegrid.Actor "   1" <-- "1" src.Tetris: .-blockPreview
+ch.aplu.jgamegrid.Actor "\n   0..*"<.... "1"src.Tetris:  .+Tetris()
+ch.aplu.jgamegrid.Actor <|-- src.TetroBlock
+src.Tetris <.u. src.Driver
+src.TetrisGameCallback <.. src.Driver
+src.Tetris "1"-l->"1" src.TetrisGameCallback: "-- gameCallback"
+src.TetroBlock "4..*"<--"1 " src.Shape: .#blocks
+src.ShapeIndex <-u- src.Shape: uses <
+src.Statistics "1   "<-r-"1   "src.Tetris:  has <
+src.DifficultyModifier -r-> src.Difficulty: has >
+src.Tetris "1" --> " 1" src.DifficultyModifier: uses >
+@enduml
