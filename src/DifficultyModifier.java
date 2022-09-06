@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class DifficultyModifier {
 
-    private Difficulty difficulty;
+    private final Difficulty difficulty;
 
     private enum Difficulty{
         easy("easy"), medium("medium"), madness("madness");
