@@ -38,9 +38,10 @@ public class Statistics {
     }
 
     private void updateStatCount() {
+        writeStats();
         roundScores.set(roundCount, currScore);
         pieceCountByRound.set(roundCount, Arrays.copyOf(pieceCount, numOfPieces));
-        writeStats();
+//        writeStats();
     }
 
     public void updateRoundScore(int roundScore) {
