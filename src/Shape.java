@@ -351,12 +351,12 @@ class Shape extends Actor {
         return r;
     }
 
-    public static void main(String args[]) {
+  /*  public static void main(String args[]) {
         Location[] plus = {new Location(-1,0), new Location(0,1), new Location(0, 0), new Location(1, 0), new Location(0,-1)};
         Location[] p = {new Location(-1,-1), new Location(0,-1), new Location(-1,0), new Location(0,0), new Location(-1,1)};
         Location[] q = {new Location(-1,-1), new Location(0,-1), new Location(-1,0), new Location(0,0), new Location(0,1)};
         Location[][] a = find_all_rotation( q);
     }
-
+*/
 
 }
